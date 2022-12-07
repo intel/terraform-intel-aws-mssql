@@ -72,6 +72,11 @@ output "db_engine_version_actual" {
   value       = aws_db_instance.rds.engine_version_actual
 }
 
+output "db_timezone" {
+  description = "The timezone associated with the underlying Amazon EC2 instance of an RDS Custom DB instance."
+  value       = aws_db_instance.rds.timezone
+}
+
 ########################
 #### Authentication ####
 ########################
@@ -103,10 +108,7 @@ output "db_custom_iam_profile" {
   value       = aws_db_instance.rds.custom_iam_instance_profile
 }
 
-output "db_timezone" {
-  description = "The timezone associated with the underlying Amazon EC2 instance of an RDS Custom DB instance."
-  value       = aws_db_instance.rds.timezone
-}
+
 
 ########################
 ####    Storage     ####

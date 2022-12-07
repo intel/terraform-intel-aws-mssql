@@ -594,13 +594,13 @@ variable "aws_security_group_name" {
 variable "ingress_from_port" {
   description = "Starting ingress port for the RDS security group."
   type        = number
-  default     = 3306
+  default     = 1433
 }
 
 variable "ingress_to_port" {
   description = "Ending ingress port for the RDS security group."
   type        = number
-  default     = 3306
+  default     = 1433
 }
 
 variable "ingress_protocol" {
@@ -621,13 +621,13 @@ variable "ingress_cidr_blocks" {
 variable "egress_from_port" {
   description = "Starting egress port for the RDS security group."
   type        = number
-  default     = 3306
+  default     = 1433
 }
 
 variable "egress_to_port" {
   description = "Ending egress port for the RDS security group."
   type        = number
-  default     = 3306
+  default     = 1433
 }
 
 variable "egress_protocol" {
