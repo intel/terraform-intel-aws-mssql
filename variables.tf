@@ -95,7 +95,7 @@ variable "db_port" {
 variable "db_engine_version" {
   description = "Database engine version for AWS database instance."
   type        = string
-  default     = "8.0"
+  default     = "15.00"
 }
 
 variable "db_engine" {
