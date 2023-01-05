@@ -57,19 +57,19 @@ variable "db_subnet_group_tag" {
 variable "db_parameter_group_name" {
   description = "Name for the RDS database parameter group."
   type        = string
-  default     = "sqlserver"
+  default     = "sqlserver-ex-15"
 }
 
 variable "db_parameter_group_family" {
   description = "Family identifier for the RDS database parameter group."
   type        = string
-  default     = "sqlserver-ee-15.0"
+  default     = "sqlserver-ex-15"
 }
 
 variable "aws_database_instance_identifier" {
   description = "Identifier for the AWS database instance."
   type        = string
-  default     = "sqlserver"
+  default     = "dbserver"
 }
 
 variable "db_name" {
@@ -95,17 +95,11 @@ variable "db_port" {
 variable "db_engine_version" {
   description = "Database engine version for AWS database instance."
   type        = string
-  default     = "15.00"
 }
 
 variable "db_engine" {
   description = "Database engine version for AWS database instance."
   type        = string
-  validation {
-    condition     = contains(["sqlserver"], var.db_engine)
-    error_message = "The db_engine must be \"sqlserver-ee\", \"sqlserver-se\", \"sqlserver-ex\", or \"sqlserver-web\""
-  }
-  default = "sqlserver-ee"
 }
 
 variable "db_option_group" {

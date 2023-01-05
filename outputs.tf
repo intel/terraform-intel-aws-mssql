@@ -37,10 +37,10 @@ output "db_status" {
   value       = aws_db_instance.rds.status
 }
 
-output "db_parameter_group" {
-  description = "Parameter group that was created"
-  value       = aws_db_parameter_group.rds.name
-}
+#output "db_parameter_group" {
+#  description = "Parameter group that was created"
+#  value       = aws_db_parameter_group.rds.name
+#}
 
 output "instance_class" {
   description = "Instance class in use for the database instance that was created."
