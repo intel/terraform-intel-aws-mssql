@@ -12,7 +12,9 @@ Configuration in this directory creates an Amazon RDS instance for MSSQL. The in
 
 As you configure your application's environment, choose the configurations for your infrastructure that matches your application's requirements.
 
-The MSSQL Optimizations were based off [Intel Xeon Tunning guides](<https://www.intel.com/content/www/us/en/developer/articles/guide/open-source-database-tuning-guide-on-xeon-systems.html>) - NOTE: need to update to correct reference
+The MSSQL Optimizations were based off [Intel Xeon Tunning guides](<https://www.intel.com/content/www/us/en/developer/articles/guide/sql-server-tuning-guide-for-otp-using-xeon.html>) 
+
+Note:  Recommendation to utilize SQL statements for optimization configuration. 
 
 ## Usage
 
