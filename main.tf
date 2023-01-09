@@ -16,9 +16,6 @@ locals {
   restore_point_flag = var.db_engine != "mysql" ? compact([var.db_automated_backup_arn, var.db_use_latest_restore_time, var.db_restore_time, var.db_source_dbi_resource_id, var.db_source_db_instance_id]) : []
 }
 
-# restore_point_flag = var.db_engine != "mysql" || !contains(["sqlserver"], var.db_engine) ? compact([var.db_automated_backup_arn, var.db_use_latest_restore_time, var.db_restore_time, var.db_source_dbi_resource_id, var.db_source_db_instance_id]) : []
-# }
-
 resource "random_id" "rid" {
   byte_length = 5
 }
@@ -36,15 +33,6 @@ resource "aws_db_subnet_group" "rds" {
   subnet_ids = data.aws_subnets.vpc_subnets.ids
   tags       = var.db_subnet_group_tag
 }
-
-#resource "aws_db_parameter_group" "rds" {
-#  name   = "${var.db_parameter_group_name}"
-#  family = var.db_parameter_group_family
-
-#  lifecycle {
-#    create_before_destroy = true #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_parameter_group#create_before_destroy-lifecycle-configuration
-#  }
-#}
 
 resource "aws_db_instance" "rds" {
   identifier     = var.aws_database_instance_identifier

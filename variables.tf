@@ -85,7 +85,6 @@ variable "db_username" {
   default     = null
 }
 
-
 variable "db_port" {
   description = "The port on which the DB accepts connections."
   type        = number
