@@ -2,19 +2,18 @@
 # terraform apply -var="db_password=..."
 # Environment variables can also be used https://www.terraform.io/language/values/variables#environment-variables
 
-# Provision Intel Optimized AWS MySQL server
+# Provision Intel Optimized AWS MSSQL server
 module "optimized-mysql-server" {
   source         = "../../"
   db_engine         = "sqlserver-ee"
   db_engine_version       = "15.00"
   db_password = var.db_password
-  #rds_identifier = "<NAME-FOR-RDS-INSTANCE>"
-  rds_identifier = var.rds_identifier
-  # Update the vpc_id below for the VPC that this module will use. Find the vpc-id in your AWS account
+  rds_identifier = "rds-example-id"
+    # Update the vpc_id below for the VPC that this module will use. Find the vpc-id in your AWS account
   # from the AWS console or using CLI commands. In your AWS account, the vpc-id is represented as "vpc-",
   # followed by a set of alphanumeric characters. One sample representation of a vpc-id is vpc-0a6734z932p20c2m4
   db_username     = "sqladministrator"
-  vpc_id = "vpc-0a6734z932p20c2m4"
+  vpc_id = "vpc-example-vpc"
   db_timeouts = {
     create = "2h"
     delete = "2h"

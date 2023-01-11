@@ -14,7 +14,3 @@ variable "db_password" {
   }
 }
 
-variable "rds_identifier" {
-    description = "RDS identifier"
-    type        = string
-}
