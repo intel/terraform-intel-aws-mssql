@@ -15,4 +15,9 @@ module "optimized-mysql-server" {
   # followed by a set of alphanumeric characters. One sample representation of a vpc-id is vpc-0a6734z932p20c2m4
   db_username     = "sqladministrator"
   vpc_id = "vpc-0a6734z932p20c2m4"
+  db_timeouts = {
+    create = "2h"
+    delete = "2h"
+    update = "2h"
+  }
 }
