@@ -3,7 +3,7 @@
 # Environment variables can also be used https://www.terraform.io/language/values/variables#environment-variables
 
 # Provision Intel Optimized AWS MSSQL server
-module "optimized-mysql-server" {
+module "optimized-mssql-server" {
   source         = "../../"
   db_engine         = "sqlserver-ee"
   db_engine_version       = "15.00"
