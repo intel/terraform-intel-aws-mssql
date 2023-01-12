@@ -54,22 +54,10 @@ variable "db_subnet_group_tag" {
   }
 }
 
-variable "db_parameter_group_name" {
-  description = "Name for the RDS database parameter group."
-  type        = string
-  default     = "sqlserver-ex-15"
-}
-
-variable "db_parameter_group_family" {
-  description = "Family identifier for the RDS database parameter group."
-  type        = string
-  default     = "sqlserver-ex-15"
-}
-
 variable "aws_database_instance_identifier" {
   description = "Identifier for the AWS database instance."
   type        = string
-  default     = "dbserver"
+  default     = "sqlserver"
 }
 
 variable "db_name" {
@@ -94,6 +82,7 @@ variable "db_port" {
 variable "db_engine_version" {
   description = "Database engine version for AWS database instance."
   type        = string
+  default     = "8.0"
 }
 
 variable "db_engine" {
