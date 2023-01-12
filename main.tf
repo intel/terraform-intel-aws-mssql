@@ -4,7 +4,7 @@ locals {
   security_group_ids = var.create_security_group == false && var.security_group_ids != [""] ? var.security_group_ids : tolist([aws_security_group.rds[0].id])
 
   # If skip_final_snapshot is set to false then assemble a string with the prefix-rds_identifier-random_id. dec is used because b64 and id can contain characters that rds does not allow
-  snapshot_identifier = var.skip_final_snapshot == false ? "${var.final_snapshot_prefix}${var.rds_identifier}" : ""
+  snapshot_identifier = var.skip_final_snapshot == false ? "${var.final_snapshot_prefix}${var.rds_identifier}-${random_id.rid.dec}" : ""
 
   # Determine if the db_username is set. If it is then we will use the value. If not we lookup the db_engine and supply a default for postgres. If the engine is mysql we use a different user for that. If the engine is sqlserver we use sqlserveradmin. If it is not equal to any then we pass a null value and error
   db_username = var.db_username != null ? var.db_username : (var.db_engine == "postgres" ? "pgadmin" : (var.db_engine == "mysql" ? "mysqladmin" : (contains(["sqlserver"], var.db_engine) ? "sqlserveradmin" : null)))
@@ -37,20 +37,20 @@ resource "aws_db_subnet_group" "rds" {
 resource "aws_db_instance" "rds" {
   identifier     = var.aws_database_instance_identifier
   instance_class = var.instance_class
-  license_model   = "license-included"
+  license_model  = "license-included"
 
   # General
-  db_name              = var.db_name
-  engine               = local.replication_snapshot_bool ? null : var.db_engine
-  engine_version       = local.replication_snapshot_bool ? null : var.db_engine_version
-  username             = local.replication_snapshot_bool ? null : local.db_username
-  password             = local.replication_snapshot_bool ? null : var.db_password
+  db_name        = var.db_name
+  engine         = local.replication_snapshot_bool ? null : var.db_engine
+  engine_version = local.replication_snapshot_bool ? null : var.db_engine_version
+  username       = local.replication_snapshot_bool ? null : local.db_username
+  password       = local.replication_snapshot_bool ? null : var.db_password
   #parameter_group_name = aws_db_parameter_group.rds.name
-  option_group_name    = var.db_option_group
-  availability_zone    = var.availability_zone
-  multi_az             = var.multi_az
-  ca_cert_identifier   = var.db_ca_cert_identifier
-  timezone             = var.db_timezone
+  option_group_name  = var.db_option_group
+  availability_zone  = var.availability_zone
+  multi_az           = var.multi_az
+  ca_cert_identifier = var.db_ca_cert_identifier
+  timezone           = var.db_timezone
 
   # Networking
   publicly_accessible    = var.db_publicly_accessible
