@@ -40,12 +40,11 @@ resource "aws_db_instance" "rds" {
   license_model  = "license-included"
 
   # General
-  db_name        = var.db_name
-  engine         = local.replication_snapshot_bool ? null : var.db_engine
-  engine_version = local.replication_snapshot_bool ? null : var.db_engine_version
-  username       = local.replication_snapshot_bool ? null : local.db_username
-  password       = local.replication_snapshot_bool ? null : var.db_password
-  #parameter_group_name = aws_db_parameter_group.rds.name
+  db_name            = var.db_name
+  engine             = local.replication_snapshot_bool ? null : var.db_engine
+  engine_version     = local.replication_snapshot_bool ? null : var.db_engine_version
+  username           = local.replication_snapshot_bool ? null : local.db_username
+  password           = local.replication_snapshot_bool ? null : var.db_password
   option_group_name  = var.db_option_group
   availability_zone  = var.availability_zone
   multi_az           = var.multi_az
@@ -85,7 +84,7 @@ resource "aws_db_instance" "rds" {
   deletion_protection       = var.db_deletion_protection
   skip_final_snapshot       = var.skip_final_snapshot
   final_snapshot_identifier = local.replication_snapshot_bool ? null : local.snapshot_identifier
-  
+
   # Monitoring
   monitoring_interval                   = var.db_monitoring_interval
   monitoring_role_arn                   = var.db_monitoring_role_arn
