@@ -1,8 +1,5 @@
 locals {
 
-  # Evaluates if a parameter wasn't supplied in the input map (someone didn't want to use it) and returns only the objects that have been configured
-  db_parameters = { for parameter, value in lookup(var.db_parameters, var.db_engine, {}) : parameter => value if value != null /* object */ }
-
   # If create_security_groups is false and security_group_ids is not equal to an empty list then use the list. If those are false then use the generated security group id
   security_group_ids = var.create_security_group == false && var.security_group_ids != [""] ? var.security_group_ids : tolist([aws_security_group.rds[0].id])
 
@@ -18,9 +15,6 @@ locals {
   # Determine if the db_engine is set to mysql. If false then created a list of all the backup strings, if true then create an empty list. This list is referenced to determine the length which acts like a flag for the dynamic block
   restore_point_flag = var.db_engine != "mysql" ? compact([var.db_automated_backup_arn, var.db_use_latest_restore_time, var.db_restore_time, var.db_source_dbi_resource_id, var.db_source_db_instance_id]) : []
 }
-
-# restore_point_flag = var.db_engine != "mysql" || !contains(["sqlserver"], var.db_engine) ? compact([var.db_automated_backup_arn, var.db_use_latest_restore_time, var.db_restore_time, var.db_source_dbi_resource_id, var.db_source_db_instance_id]) : []
-# }
 
 resource "random_id" "rid" {
   byte_length = 5
@@ -40,40 +34,23 @@ resource "aws_db_subnet_group" "rds" {
   tags       = var.db_subnet_group_tag
 }
 
-resource "aws_db_parameter_group" "rds" {
-  name   = "${var.db_parameter_group_name}-${random_id.rid.dec}"
-  family = var.db_parameter_group_family
-
-  dynamic "parameter" {
-    for_each = local.db_parameters
-    content {
-      name         = parameter.key
-      value        = parameter.value.value
-      apply_method = parameter.value.apply_method
-    }
-  }
-
-  lifecycle {
-    create_before_destroy = true #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_parameter_group#create_before_destroy-lifecycle-configuration
-  }
-}
-
 resource "aws_db_instance" "rds" {
   identifier     = var.aws_database_instance_identifier
   instance_class = var.instance_class
+  license_model  = "license-included"
 
   # General
-  db_name              = var.db_name
-  engine               = local.replication_snapshot_bool ? null : var.db_engine
-  engine_version       = local.replication_snapshot_bool ? null : var.db_engine_version
-  username             = local.replication_snapshot_bool ? null : local.db_username
-  password             = local.replication_snapshot_bool ? null : var.db_password
-  parameter_group_name = aws_db_parameter_group.rds.name
-  option_group_name    = var.db_option_group
-  availability_zone    = var.availability_zone
-  multi_az             = var.multi_az
-  ca_cert_identifier   = var.db_ca_cert_identifier
-  timezone             = var.db_timezone
+  db_name        = var.db_name
+  engine         = local.replication_snapshot_bool ? null : var.db_engine
+  engine_version = local.replication_snapshot_bool ? null : var.db_engine_version
+  username       = local.replication_snapshot_bool ? null : local.db_username
+  password       = local.replication_snapshot_bool ? null : var.db_password
+  #parameter_group_name = aws_db_parameter_group.rds.name
+  option_group_name  = var.db_option_group
+  availability_zone  = var.availability_zone
+  multi_az           = var.multi_az
+  ca_cert_identifier = var.db_ca_cert_identifier
+  timezone           = var.db_timezone
 
   # Networking
   publicly_accessible    = var.db_publicly_accessible
@@ -108,7 +85,7 @@ resource "aws_db_instance" "rds" {
   deletion_protection       = var.db_deletion_protection
   skip_final_snapshot       = var.skip_final_snapshot
   final_snapshot_identifier = local.replication_snapshot_bool ? null : local.snapshot_identifier
-
+  
   # Monitoring
   monitoring_interval                   = var.db_monitoring_interval
   monitoring_role_arn                   = var.db_monitoring_role_arn
