@@ -6,9 +6,9 @@
 
 © Copyright 2023, Intel Corporation
 
-## Terraform Intel MSSQL RDS 
+## Terraform Intel MSSQL RDS
 
-This example creates an Amazon RDS database server for Microsoft SQL based on the latest Intel Architecture. It is created in an exisitng VPC. The vpc-id for this existing VPC is required to updated in the main.tf of this example folder. The database server is created is the us-west-1 region. In order to change the region, update the value for region in the variables.tf file inside this example's folder.
+This example creates an Amazon RDS database server for Microsoft SQL based on the latest Intel Architecture. It is created in a new VPC. This new vpc is created as the forst step within this example. The vpc-id for this new VPC is passed on to the database server creation step. The database server is created is the us-west-1 region. In order to change the region, update the value for region in the variables.tf file inside this example's folder.
 
 ## Usage
 
@@ -33,6 +33,22 @@ main.tf
 # terraform apply -var="db_password=..."
 # Environment variables can also be used https://www.terraform.io/language/values/variables#environment-variables
 
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "~>3.18.1"
+
+  name = "my-vpc"
+  cidr = "10.0.0.0/16"
+
+  azs             = ["us-west-1a", "us-west-1b", "us-west-1c"]
+  private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+
+  tags = {
+    Terraform = "true"
+    Environment = "dev"
+  }
+}
+
 # Provision Intel Optimized AWS MSSQL server
 module "optimized-mssql-server" {
   source            = "../../"
@@ -43,11 +59,8 @@ module "optimized-mssql-server" {
 
   # Set the rds_identifier below based on your naming conventions. The value for rds_identifier provided below is for example illustration purposes only
   rds_identifier = "rds-example-id"
-
-  # Update the vpc_id below for the VPC that this module will use. Find the vpc-id in your AWS account
-  # from the AWS console or using CLI commands. In your AWS account, the vpc-id is represented as "vpc-",
-  # followed by a set of alphanumeric characters. One sample representation of a vpc-id is vpc-0a6734z932p20c2m4
-  vpc_id = "replace_with_existing_vpc_id"
+  
+  vpc_id = module.vpc.vpc_id
 
   # Setting the timeout parameters for the database server for create, delete and update operations
   db_timeouts = {
@@ -65,8 +78,8 @@ Run Terraform
 ```hcl
 terraform init  
 terraform plan
-terraform apply -var="db_password=enter_your_password_here" 
+terraform apply -var="db_password=enter_your_password_here"  
 ```
 ## Considerations
-- Change rds_identifier and vpc_id
-- There are some variables in the variables.tf file under the main repo that have default values. If you have existing resources in your AWS account that is conflicting with any of the default values in variables.tf file, please update the default values in variables.tf file
+- This example creates a new vpc. If you get error for vpc creation due to maximum number of vpc's being already present for your account in the specific region being used, please work with AWS Support team to increase your limit
+- There are some variables in the variables.tf file under the main repo that have default values. If you have existing resources in your AWS account that is matching any of the default values in variables.tf file, please update the default values in variables.tf file
