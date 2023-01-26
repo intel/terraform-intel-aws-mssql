@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/OTCShare2/terraform-intel-hashicorp/blob/main/images/logo-classicblue-800px.png?raw=true" alt="Intel Logo" width="250"/>
+  <img src="https://github.com/intel/terraform-intel-aws-mssql/images/logo-classicblue-800px.png?raw=true" alt="Intel Logo" width="250"/>
 </p>
 
 # Intel Cloud Optimization Modules for Terraform
@@ -64,7 +64,7 @@ resource "aws_iam_role" "enhanced_monitoring_cloudwatch" {
 
 # Provision Intel Optimized AWS MSSQL server
 module "optimized-mssql-server" {
-  source            = "../../"
+  source            = "intel/aws-mssql/intel"
   db_engine         = "sqlserver-ee"
   db_engine_version = "15.00"
   db_username       = "sqladministrator"

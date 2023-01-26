@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./images/logo-classicblue-800px.png" alt="Intel Logo" width="250"/>
+  <img src="https://github.com/intel/terraform-intel-aws-mssql/images/logo-classicblue-800px.png?raw=true" alt="Intel Logo" width="250"/>
 </p>
 
 # Intel® Cloud Optimization Modules for Terraform
@@ -40,7 +40,7 @@ variable "db_password" {
 main.tf
 ```hcl
 module "mssql-server" {
-  source         = "github.com/intel/terraform-intel-aws-mssql"
+  source         = "intel/aws-mssql/intel"
   db_password    = var.db_password
   rds_identifier = "<NAME-FOR-RDS-INSTANCE>"
   vpc_id         = "<YOUR-VPC-ID>"
