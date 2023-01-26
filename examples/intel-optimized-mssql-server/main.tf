@@ -4,7 +4,7 @@
 
 # Provision Intel Optimized AWS MSSQL server
 module "optimized-mssql-server" {
-  source            = "../../"
+  source            = "intel/aws-mssql/intel"
   db_engine         = "sqlserver-ee"
   db_engine_version = "15.00"
   db_username       = "sqladministrator"
