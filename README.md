@@ -4,7 +4,7 @@
 
 # Intel® Optimized Cloud Modules for Terraform
 
-© Copyright 2024, Intel Corporation
+© Copyright 2025, Intel Corporation
 
 ## AWS RDS MSSQL module
 
@@ -89,6 +89,14 @@ terraform apply
 No modules.
 
 ## Resources
+
+## Links
+
+<https://aws.amazon.com/ec2/instance-types/m6i/>
+
+<https://aws.amazon.com/ec2/instance-types/r6i/>
+
+<https://aws.amazon.com/rds/mysql/pricing/>
 
 | Name | Type |
 |------|------|
